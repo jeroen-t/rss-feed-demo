@@ -89,7 +89,7 @@ nav {
     border-bottom: 1px solid #E4E5E7;
     padding-top: 17px;
     padding-bottom: 15px;
-    background: #F7F9FA;
+    background: #0080FF;
     height: 60px;
     color: #6A6C6F;
 }
@@ -348,6 +348,6 @@ footer {
 }
   
 .btn.active {
-    background-color: #666;
+    background-color: #0080FF;
     color: white;
 }
