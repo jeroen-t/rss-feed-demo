@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		fmt.Fprintf(w, "Not found")
+		app.notFound(w)
 		return
 	}
 
-	fmt.Fprintf(w, "Nothing to see here..")
+	app.render(w, r, "home.page.tmpl", &templateData{})
 }

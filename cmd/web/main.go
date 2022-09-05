@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 )
 
 var feedURLs = []string{
@@ -12,8 +13,9 @@ var feedURLs = []string{
 }
 
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -23,9 +25,15 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
+	templateCache, err := newTemplateCache("./ui/html/")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
 	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		templateCache: templateCache,
 	}
 
 	srv := &http.Server{
@@ -34,7 +42,7 @@ func main() {
 		Handler:  app.routes(),
 	}
 
-	infoLog.Printf("Starting server on %s", *port)
-	err := srv.ListenAndServe()
+	infoLog.Printf("Starting server on http://localhost%s", *port)
+	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
 }
