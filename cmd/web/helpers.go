@@ -6,7 +6,15 @@ import (
 	"net/http"
 	"runtime/debug"
 	"time"
+
+	"github.com/mmcdole/gofeed"
 )
+
+func (app *application) parseFeed() *gofeed.Feed {
+	fp := gofeed.NewParser()
+	feed, _ := fp.ParseURL("https://azurecomcdn.azureedge.net/en-us/updates/feed/")
+	return feed
+}
 
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
 	if td == nil {
