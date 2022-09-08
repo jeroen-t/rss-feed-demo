@@ -10,7 +10,12 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := app.parseFeed()
+	var feedUrls = []string{
+		"https://www.jeroentrimbach.com/index.xml",
+		"https://azurecomcdn.azureedge.net/en-us/updates/feed/",
+	}
+
+	f := app.parseFeeds(feedUrls)
 	app.render(w, r, "home.page.tmpl", &templateData{
 		Feeds: f,
 	})

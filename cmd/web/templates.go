@@ -4,13 +4,11 @@ import (
 	"path/filepath"
 	"text/template"
 	"time"
-
-	"github.com/mmcdole/gofeed"
 )
 
 type templateData struct {
 	CurrentYear int
-	Feeds       *gofeed.Feed
+	Feeds       []feedItem
 }
 
 func humanDate(t time.Time) string {

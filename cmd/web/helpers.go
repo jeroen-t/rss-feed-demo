@@ -10,10 +10,37 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-func (app *application) parseFeed() *gofeed.Feed {
+type feedItem struct {
+	SourceTitle   string
+	SourceUrl     string
+	PublishedDate string
+	ArticleTitle  string
+	ArticleUrl    string
+	Author        string
+}
+
+func (app *application) parseFeed(url string) *gofeed.Feed {
 	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL("https://azurecomcdn.azureedge.net/en-us/updates/feed/")
+	feed, _ := fp.ParseURL(url)
 	return feed
+}
+
+func (app *application) parseFeeds(urls []string) []feedItem {
+	feedItems := []feedItem{}
+	for i := 0; i < len(urls); i++ {
+		f := app.parseFeed(urls[i])
+		for j := 0; j < len(f.Items); j++ {
+			feedItems = append(feedItems, feedItem{
+				SourceTitle:   f.Title,
+				SourceUrl:     f.FeedLink,
+				PublishedDate: f.Items[j].Published,
+				ArticleTitle:  f.Items[j].Title,
+				ArticleUrl:    f.Items[j].Link,
+			})
+		}
+	}
+
+	return feedItems
 }
 
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
