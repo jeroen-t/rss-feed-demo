@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"sort"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -13,7 +14,7 @@ import (
 type feedItem struct {
 	SourceTitle   string
 	SourceUrl     string
-	PublishedDate string
+	PublishedDate *time.Time
 	ArticleTitle  string
 	ArticleUrl    string
 	Author        string
@@ -33,7 +34,7 @@ func (app *application) parseFeeds(urls []string) []feedItem {
 			feedItems = append(feedItems, feedItem{
 				SourceTitle:   f.Title,
 				SourceUrl:     f.FeedLink,
-				PublishedDate: f.Items[j].Published,
+				PublishedDate: f.Items[j].PublishedParsed,
 				ArticleTitle:  f.Items[j].Title,
 				ArticleUrl:    f.Items[j].Link,
 			})
@@ -41,6 +42,13 @@ func (app *application) parseFeeds(urls []string) []feedItem {
 	}
 
 	return feedItems
+}
+
+func (app *application) sortFeedItems(items []feedItem) []feedItem {
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].PublishedDate.After(*items[j].PublishedDate)
+	})
+	return items
 }
 
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {

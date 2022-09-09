@@ -16,7 +16,9 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := app.parseFeeds(feedUrls)
+	i := app.sortFeedItems(f)
+
 	app.render(w, r, "home.page.tmpl", &templateData{
-		Feeds: f,
+		Feeds: i,
 	})
 }
