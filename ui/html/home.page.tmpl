@@ -13,7 +13,7 @@
           <p class="card-text">{{.Author}}</p>
         </div>
         <div class="card-footer">
-          <small class="text-muted">{{.PublishedDate}}</small>
+          <small class="text-muted">{{humanDate .PublishedDate}}</small>
           <a href="{{.ArticleUrl}}" class="btn btn-primary stretched-link">Read full post</a>
         </div>
       </div>
