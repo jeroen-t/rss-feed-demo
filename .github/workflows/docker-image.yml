@@ -21,4 +21,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag rss-feed-demo:${{  github.ref_name }}
     - name: Docker Push
-      run: docker push ${{ secrets.DOCKER_USER }}/rss-feed-demo
+      run: docker image push ${{ secrets.DOCKER_USER }}/rss-feed-demo/rss-feed-demo:${{  github.ref_name }}
