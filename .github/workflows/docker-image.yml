@@ -19,6 +19,6 @@ jobs:
       run: >
         echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag rss-feed-demo:${{  github.ref_name }}
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USER }}/rss-feed-demo:${{  github.ref_name }}
     - name: Docker Push
-      run: docker image push ${{ secrets.DOCKER_USER }}/rss-feed-demo/rss-feed-demo:${{  github.ref_name }}
+      run: docker push ${{ secrets.DOCKER_USER }}/rss-feed-demo:${{  github.ref_name }}
