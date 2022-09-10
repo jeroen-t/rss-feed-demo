@@ -19,7 +19,7 @@ type application struct {
 }
 
 func main() {
-	port := flag.String("port", ":4000", "port on which the server will listen")
+	port := flag.String("port", ":8080", "port on which the server will listen")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
